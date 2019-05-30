@@ -1,0 +1,39 @@
+import java.util.Arrays;
+
+public class queue<T> {
+    T[] Queue;
+    public static int front=0;
+    public static int rear=0;
+    public static int size=0;
+    public static int firstsize=5;
+    public queue(){
+        this(firstsize);
+    }
+    public queue(int initialsize){
+        T[] tempQueue =(T[]) new Object[initialsize];
+        Queue=tempQueue;
+    }
+    public void large(){
+        if (Queue.length<=size){
+            firstsize=firstsize+1;
+            Queue= Arrays.copyOf(Queue,firstsize);
+        }
+    }
+    public void enqueue(T newEntry){
+        large();
+        Queue[rear]=newEntry;
+        rear = rear+1;
+        size = size+1;
+    }
+    public T dequeue(){
+        T result = Queue[front];
+        Queue[front]=null;
+        front++;
+        return result;
+    }
+    public void show(){
+        for(T n:Queue){
+            System.out.println( n +" ");
+        }
+    }
+}
