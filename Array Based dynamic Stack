@@ -1,0 +1,49 @@
+import java.util.Arrays;
+import java.util.EmptyStackException;
+
+public class Stack<T> {
+    T[] stack;
+    public int size;
+    public int front;
+    public int rear;
+    public static int firstsize=2;
+    public Stack(){
+        this(firstsize);
+    }
+    public Stack(int initialsize){
+        T[] tempstack = (T[]) new Object[initialsize];
+        stack=tempstack;
+        front=-1;
+    }
+    public void large(){
+        if(size==stack.length){
+            firstsize=firstsize+1;
+            stack= Arrays.copyOf(stack,firstsize);
+        }
+    }
+    public void push(T newEntry){
+        large();
+        stack[front+1]=newEntry;
+        front++;
+        size++;
+    }
+    public T peek(){
+        if (size==0) throw new EmptyStackException();
+        return stack[front];
+    }
+    public T pop(){
+        if (size==0) throw new EmptyStackException();
+        T  result = peek();
+        stack[front]=null;
+        front--;
+        size--;
+        firstsize=firstsize-1;
+        Arrays.copyOf(stack,firstsize);
+        return result;
+    }
+    public void Show(){
+        for (T n:stack){
+            System.out.println(n + " ");
+        }
+    }
+}
