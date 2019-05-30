@@ -1,0 +1,64 @@
+public class LStack<T> {
+    private class Node<T>{
+        T data;
+        Node next;
+        public Node(T tempData){
+            this(tempData,null);
+        }
+        public Node(T tempdata,Node nextnode){
+            data=tempdata;
+            next=nextnode;
+        }
+    }
+    Node head;
+    int size;
+    public void push(T newEntry){
+        Node node = new Node(newEntry);
+        node.data=newEntry;
+        node.next=null;
+        if (head==null){
+            head=node;
+            size++;
+        }
+        else{
+            Node n = head;
+            while(n.next!=null){
+                n=n.next;
+            }
+            n.next=node;
+            size++;
+        }
+    }
+    public Object peek(){
+        Node n = head;
+        for (int i=0;i<size-1;i++){
+            n = n.next;
+        }
+        return n.data;
+    }
+    public void pop(){
+        if (size==0){
+            head=head.next;
+            size--;
+        }
+        else{
+            Node n = head;
+            Node n1= null;
+            for (int i=0;i<size-2;i++){
+                n = n.next;
+            }
+            n1=n.next;
+            n.next=n1.next;
+            n1=null;
+            size--;
+        }
+    }
+    public void show(){
+        Node node = head;
+        while(node.next!=null){
+            System.out.println(node.data);
+            node = node.next;
+        }
+        System.out.println(node.data);
+    }
+}
