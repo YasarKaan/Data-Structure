@@ -7,3 +7,4 @@ Implementation of Data Structure methods with Generics in Java
 5-Linked List based Stack
 6-Binary Search Tree
 7-Hash Table
+8-Heaps
