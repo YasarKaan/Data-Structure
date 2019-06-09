@@ -10,7 +10,7 @@ public class Heap {
     private int getParentindex(int childindex)  {return (childindex-1)/2;}
 
     private boolean hasLeftChild (int index){ return getLeftChild(index)<size; }
-    private boolean hasRightChild(int index){ return getRightChild(index)>size;}
+    private boolean hasRightChild(int index){ return getRightChild(index)<size;}
     private boolean hasParent    (int index){ return getParentindex(index)>=0; }
 
     private int leftChild (int index){return items[getLeftChild(index)];  }
