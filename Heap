@@ -65,9 +65,10 @@ public class Heap {
         if (size==0) throw new IllegalStateException();
         int item=items[0];
         items[0]=items[size-1];
+        items[0]=0;
+        items[size-1]=0;
         size--;
-        heapifyDown();
-        return item;
+        heapifydown();
     }
 
 }
