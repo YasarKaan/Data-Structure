@@ -1,86 +1,133 @@
+import java.util.NoSuchElementException;
+
 public class BST<T> {
-    private class Node{
+    private class Node<T>{
         T data;
-        int value;
-        Node leftChild;
-        Node rightChild;
-        public Node(T initdata,int initvalue){
-            data=initdata;
-            value=initvalue;
+        int amount;
+        Node leftchild;
+        Node rightchild;
+        public Node(T dataportion,int initamount){
+            data=dataportion;
+            amount=initamount;
+        }
+        public String toString(){
+            return " " +amount;
         }
     }
     Node root;
     int size;
-    public void insert(T newEntry,int money){
-        Node node=new Node(newEntry,money);
+    public void insert(T newEntry,int amount){
+        Node node=new Node(newEntry,amount);
         node.data=newEntry;
-        node.value=money;
-        if(root==null){
-            root=node;
+        if(size==0){
+               root=node;
         }
         else{
-            insert(node,newEntry,money);
+            insertentry(root,newEntry,amount);
         }
         size++;
     }
-    private void insert(Node node,T newEntry,int money){
-        if(root.value==money){
-            node=new Node(newEntry,money);
-            node.data=newEntry;
-            node.value=money;
+    private void insertentry(Node r,T newEntry,int amount){
+
+        if(r.amount==amount){
+            Node n = root.leftchild;
+            n=max(n);
+            n.rightchild=new Node(newEntry,amount);
         }
-        else if(root.value>money){
-            if(root.leftChild!=null){
-                insert(node, newEntry, money);
+        else if(amount<r.amount){
+            if(r.leftchild!=null){
+                insertentry(r.leftchild,newEntry,amount);
             }
             else{
-                node.leftChild=new Node(newEntry,money);
-                node.data=newEntry;
-                node.value=money;
+                r.leftchild=new Node<>(newEntry,amount);
             }
         }
         else{
-            if(root.rightChild!=null){
-                insert(node,newEntry,money);
+            assert amount>r.amount;
+            if(r.rightchild!=null){
+                insertentry(r.rightchild,newEntry,amount);
             }
             else{
-                node.rightChild=new Node(newEntry,money);
-                node.data=newEntry;
-                node.value=money;
+                r.rightchild=new Node<>(newEntry,amount);
             }
         }
+
     }
-    private Node min(Node focusNode){
-        while(focusNode!=null){
-            focusNode=focusNode.leftChild;
+    public Node max(Node focusnode){
+        while (focusnode.rightchild!=null){
+            focusnode=focusnode.rightchild;
         }
-        return focusNode;
+        return focusnode;
     }
-    public void delete(T newEntry,int money){
-        Node node=new Node(newEntry,money);
-        if(root==null) throw new IllegalStateException();
-        else if(root.value>node.value){
-            if(root.leftChild!=null){
-                delete(node.data,node.value);
+    public Node Min(Node focusnode){
+        while (focusnode.rightchild!=null){
+            focusnode=focusnode.rightchild;
+        }
+        return focusnode;
+    }
+    public boolean remove(Object dataportion,int value){
+        Node r=new Node(dataportion,value);
+        if(root==null){ throw new NoSuchElementException();}
+        else if(r.amount<root.amount){
+            if(root.leftchild!=null){
+                remove(r.data,r.amount);
+            }
+            else{
+                return false;
             }
         }
-        else if(root.value<node.value){
-            if(root.rightChild!=null){
-                delete(node.data,node.value);
+        else if(r.amount>root.amount){
+            if(root.rightchild!=null){
+                remove(r.data,r.amount);
+            }
+            else{
+                return false;
             }
         }
         else{
-            if(root.rightChild!=null&&root.leftChild!=null){
-                root=min(root);
-                delete(root.data,root.value);
+            if((root.leftchild!=null)&&(root.rightchild!=null)){
+                root=Min(root.rightchild);
+                remove(root.data,root.amount);
             }
-            else if(root.leftChild==node){
-                root.leftChild = (root.leftChild!=null) ? root.leftChild : root.rightChild;
+            else if(root.leftchild==r){
+                root.leftchild  = (root.leftchild!=null) ? root.leftchild : root.rightchild;
             }
-            else if(root.rightChild==node){
-                root.rightChild = (root.rightChild!=null) ? root.leftChild : root.rightChild;
+            else if(root.rightchild==r){
+                root.rightchild = (root.leftchild!=null) ? root.leftchild : root.rightchild;
             }
         }
-        size--;
+        return true;
+    }
+    public void inorder(Node focusNode){
+        if(focusNode==null){
+            return ;
+        }
+        inorder(focusNode.leftchild);
+        System.out.println(focusNode.amount);
+        inorder(focusNode.rightchild);
+    }
+    public void preorder(Node focusNode){
+        while (focusNode!=null){
+            System.out.println(focusNode);
+            preorder(focusNode.leftchild);
+            preorder(focusNode.rightchild);
+        }
+    }
+    public void postorder(Node focusNode){
+        preorder(focusNode.leftchild);
+        preorder(focusNode.rightchild);
+        System.out.println(focusNode);
+    }
+    public String toString(){
+        return toString(root);
+    }
+    private String toString(Node r){
+        if (r==null){
+            return " ";
+        }
+        System.out.println(toString(r.rightchild));
+        System.out.println(toString(r.leftchild));
+        return r.toString();
     }
 }
+
